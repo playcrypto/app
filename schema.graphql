@@ -17,7 +17,7 @@ type User
   image: String
   networth: Float!
 
-  portfolioCoins: [PortfolioCoin] @hasMany(relationName:"byUser") #@connection(keyName: "byUser", fields: ["id"])
+  portfolioCoins: [PortfolioCoin] @manyToMany(relationName:"byUser") #@connection(keyName: "byUser", fields: ["id"])
 }
 
 type PortfolioCoin
