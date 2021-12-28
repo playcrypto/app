@@ -1,31 +1,36 @@
 import React from 'react';
-import  {View,Text, Image} from 'react-native';
+import  {View,Text, Image, Pressable} from 'react-native';
 import styles from './styles';
-
+import PercentageChange from '../PercentageChange';
+import { useNavigation } from '@react-navigation/native'; 
 
 export interface MarketCoinProps{
     marketCoin:{
+        id:string,
         image:string,
         name: string,
         symbol:string,
-        valuechange24h:number,
-        valueINR:number,
+        valueChange24H:number,
+        currentPrice:number,
     }
 }
 
 const MarketCoin= (props: MarketCoinProps) =>{
     const{
     marketCoin:{
-
+            id,
             image,
             name,
             symbol,
-            valuechange24h,
-            valueINR,
+            valueChange24H,
+            currentPrice,
         }
     }=props;
+
+    const navigation=useNavigation();
+
     return (
-        <View style={styles.root}>
+        <Pressable style={styles.root} onPress={()=>navigation.navigate('CoinDetails',{id})}>
             {/* <Text>test portfolio coin</Text> */}
             <View style={styles.left}>
                 <Image style={styles.image} source={{uri:image}}></Image>
@@ -40,14 +45,15 @@ const MarketCoin= (props: MarketCoinProps) =>{
             </View>
             <View style={styles.prices}>
                 <Text style={styles.value}>
-                    &#8377;{valueINR}       
+                    &#8377;{currentPrice.toFixed(2)}       
                 </Text>
-                <Text style={{color:valuechange24h>0? 'green' : 'red'}}>
+                <PercentageChange valueChange24H={valueChange24H}/>
+                {/* <Text style={{color:valuechange24h>0? 'green' : 'red'}}>
                     {valuechange24h>0 && '+'}{valuechange24h}%
-                </Text>
+                </Text> */}
             </View>
             
-        </View>
+        </Pressable>
     );
 };
 
